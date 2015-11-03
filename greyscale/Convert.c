@@ -23,16 +23,18 @@ struct BitMap {
 	long xPixelsPerMeter;
 	long yPixelsPerMeter;
 	long Colors;
-	long Important;
+	long ImportantColor;
 } Header;
 
-int main() {
-	FILE *image = fopen("images/bunny.bmp", "rb");
+readHeader(char *path)
+{
+	FILE *image = fopen(path, "rb");
 
 	if (image == NULL) {
 		printf("\nInvalid Image\n");
 		return 0;
 	}
+
 	memset(&Header, 0, sizeof(Header));
 
 	fread(&Header.Signature, 2, 1, image);
@@ -50,7 +52,7 @@ int main() {
 	fread(&Header.xPixelsPerMeter, 4, 1, image);
 	fread(&Header.yPixelsPerMeter, 4, 1, image);
 	fread(&Header.Colors, 4, 1, image);
-	fread(&Header.Important, 4, 1, image);
+	fread(&Header.ImportantColor, 4, 1, image);
 
 	printf("Signature: %d\n", Header.Signature);
 	printf("Size: %d\n", Header.Size);
@@ -67,9 +69,16 @@ int main() {
 	printf("xPixelsPerMeter: %d\n", Header.xPixelsPerMeter);
 	printf("yPixelsPerMeter: %d\n", Header.yPixelsPerMeter);
 	printf("Colors: %d\n", Header.Colors);
-	printf("Important: %d\n", Header.Important);
+	printf("ImportantColor: %d\n", Header.ImportantColor);
 
 	fclose(image);
 	return 0;
 }
+
+int main()
+{
+	readHeader("images/bunny.bmp");
+
+}
+
 
