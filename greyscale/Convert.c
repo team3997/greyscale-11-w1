@@ -8,9 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//Stucture of bitmap header (First 54 bytes of all bitmaps)
+//Stucture of bitmap header (First 54 bytes of bitmap)
 struct BitMapHeader {
-	short Signature; //bmp identifiers always 19778
+	short Signature; //bmp identifiers, always = 19778
 	long Size;	//size of bmp in bytes
 	short Reserved1; 	// placeholder
 	short Reserved2;	//placeholder
@@ -29,7 +29,7 @@ struct BitMapHeader {
 } Header;
 
 
-//Function that prints header info from a bitmap
+
 int greyify(char *path) {
 
 	unsigned char *image;
@@ -47,8 +47,6 @@ int greyify(char *path) {
 		return 0;
 	}
 
-	// Reset Header memory (precaution)
-	//memset(&Header, 0, sizeof(Header));
 
 	//Read the header info of the bitmap (ORDER MATTERS!)
 	fread(&Header.Signature, 2, 1, imageFile);
@@ -86,11 +84,14 @@ int greyify(char *path) {
 	printf("Colors: %d\n", Header.Colors);
 	printf("ImportantColor: %d\n", Header.ImportantColor);
 
+	// Allocate enough memory for image array
 	image = (unsigned char*) malloc(Header.Size);
 
+	// Copy information from imageFile to our image array
 	fseek(imageFile, Header.Offset, SEEK_SET);
 	fread(image,Header.Size, 1,imageFile);
 
+	// Cycle through every pixel and average the bgr values
 	for (i = 0; i < (Header.Size); i+=3)
 	{
 			greyed = ((image[i] + image[i+1] + image[i+2])/3);
@@ -99,11 +100,12 @@ int greyify(char *path) {
 	}
 
 
+	// Create a new file named newImage and set the path to images/converted.bmp
 	FILE *newImage;
 	newImage = fopen("images/converted.bmp","wb");
 
 
-
+	// Copy header info from the original image to the new image
 	fseek(newImage, 0, SEEK_SET);
 	fwrite(&Header.Signature, 2, 1, newImage);
 	fwrite(&Header.Size, 4, 1, newImage);
@@ -124,13 +126,16 @@ int greyify(char *path) {
 
 
 
-
+	//Copy all the pixel data from our greyified image array to the new image
 	fseek(newImage, Header.Offset, SEEK_SET);
 	fwrite(image,Header.Size, 1,newImage);
 
 
+	//close the open images.
 	fclose(newImage);
 	fclose(imageFile);
+
+	// Print success!
 	printf("\nConverted File: images/converted.bmp");
 	return 0;
 }
