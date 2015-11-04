@@ -87,7 +87,7 @@ int greyify(char *path) {
 	// Allocate enough memory for image array
 	image = (unsigned char*) malloc(Header.Size);
 
-	// Copy information from imageFile to our image array
+	// Copy pixel information from imageFile to our image array
 	fseek(imageFile, Header.Offset, SEEK_SET);
 	fread(image,Header.Size, 1,imageFile);
 
