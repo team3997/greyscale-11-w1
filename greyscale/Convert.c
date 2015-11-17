@@ -92,11 +92,15 @@ int greyify(char *path) {
 	fread(image,Header.Size, 1,imageFile);
 
 	// Cycle through every pixel and average the bgr values
-	for (i = 0; i < (Header.Size); i+=3)
+	for (i = 0; i < (3 * (Header.Width * Header.Height)/2); i+=3)
 	{
 			greyed = ((image[i] + image[i+1] + image[i+2])/3);
 			image[i] = image[i+1] = image[i+2] = greyed;
-
+		
+	}
+	
+	if(Header.Size-1){
+			printf("%d, %d. %d\n", image[i], image[i+1], image[i+2]);
 	}
 
 
@@ -142,7 +146,7 @@ int greyify(char *path) {
 
 
 int main() {
-	char *imagePath = "images/party.bmp";
+	char *imagePath = "images/bunny.bmp";
 	greyify(imagePath);
 	return 0;
 
