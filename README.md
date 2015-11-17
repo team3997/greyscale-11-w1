@@ -2,7 +2,7 @@
 Converting an Image to Grayscale
 by Skye McClenny, Michael Chacko, Lucy Zhao
 
-This program is designed to work only with 24-bit bmp files!
+*This program is designed to work only with 24-bit bmp files!*
 
 [Background] To handle the problem of storing digital images, two major file format types are used: raster and vector. While raster graphics break an image into its individual pixels and stores their information in a dot-matrix structure, vector graphics represent an image in terms of geometric components that can be resized and rendered smoothly at any resolution. In our program, we decided to work with the former family of file types, as it is the most commonly encountered in day-to-day life and closer to most people’s conception of how digital images are stored.
 
