@@ -1,6 +1,6 @@
 # greyscale
 Converting an Image to Grayscale
-by Skye McClenny, Michael Chacko, Lucy Zhao
+by Michael Chacko, Lucy Zhao
 
 *This program is designed to work only with 24-bit bmp files!*
 
